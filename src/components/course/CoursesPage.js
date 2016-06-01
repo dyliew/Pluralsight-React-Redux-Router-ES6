@@ -36,6 +36,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
+    // what?
+    dispatch(courseActions.loadCourses());
+
     return {
         actions: bindActionCreators(courseActions, dispatch)
     };
