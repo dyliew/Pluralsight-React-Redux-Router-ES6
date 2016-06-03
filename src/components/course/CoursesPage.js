@@ -12,6 +12,10 @@ class CoursesPage extends React.Component {
         this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
     }
 
+    componentDidMount() {
+        this.props.actions.loadCourses();
+    }
+
     courseRow(course, index) {
         return <div key={index}>{course.title}</div>;
     }
@@ -48,9 +52,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    // what?
-    dispatch(courseActions.loadCourses());
-
     return {
         actions: bindActionCreators(courseActions, dispatch)
     };

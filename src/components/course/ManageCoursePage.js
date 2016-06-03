@@ -1,3 +1,4 @@
+import toastr from 'toastr';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -10,7 +11,8 @@ class ManageCoursePage extends React.Component {
 
         this.state = {
             course: Object.assign({}, this.props.course),
-            errors: {}
+            errors: {},
+            saving: false
         };
 
         this.updateCourseState = this.updateCourseState.bind(this);
@@ -32,8 +34,17 @@ class ManageCoursePage extends React.Component {
 
     saveCourse(event) {
         event.preventDefault();
-        this.props.actions.saveCourse(this.state.course);
-        this.context.router.push('/courses');
+        this.setState({ saving: true });
+        this.props.actions.saveCourse(this.state.course)
+            .then(() => {
+                this.setState({ saving: false });
+                toastr.success('Course saved');
+                this.context.router.push('/courses');
+            })
+            .catch((error) => {
+                this.setState({ saving: false });
+                toastr.error(error);
+            });
     }
 
     render() {
@@ -43,6 +54,7 @@ class ManageCoursePage extends React.Component {
                             allAuthors={this.props.authors}
                             onChange={this.updateCourseState}
                             onSave={this.saveCourse}
+                            saving={this.state.saving}
                 />
         );
     }
