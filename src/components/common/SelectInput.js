@@ -10,10 +10,10 @@ const SelectInput = ({name, label, onChange, defaultOption, value, error, option
                         value={value}
                         onChange={onChange}
                 >
-                    <option value="">{defaultOption}</option>
+                    <option value="" key="default">{defaultOption}</option>
                     {options.map(option => {
                         return (
-                            <option key={option.key}
+                            <option key={option.value}
                                     value={option.value}
                             >
                                 {option.text}
